@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Project</title>
+	<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=r&amp;skin=default"></script>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Zilla+Slab&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+	<link rel="stylesheet" type="text/css" href="../styles/blogstyles.css">
+</head>
+
+
+
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">Go To...</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="thoracicSurgerySurvival.html">Dataset<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="logisticRegression.html">Logistic Regression</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="logisticCV.html">Cross Validation</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="bagging.html">Bagging</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="naive-bayes.html">Naive Bayes Classifier</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div id="container">
+	<h2 id="subject">Thoracic Surgery Survival Project</h2>
+<h6>Submitted by: <a href="https://github.com/AhmedKhaled8">Ahmed Khaled</a></h6>
+
+<h4  class="mainlabel"><span>E. Naive Bayes Classifier</span></h4>
+<p><a href="https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781789136609/5/ch05lvl1sec29/bootstrap-aggregation" class="ref">Naive Bayes Classifier</a> is a classification technique based on Bayes’ Theorem with an assumption of independence among predictors. In simple terms, a Naive Bayes classifier assumes that the presence of a particular feature in a class is unrelated to the presence of any other feature.</p>
+
+<p>For example, a fruit may be considered to be an apple if it is red, round, and about 3 inches in diameter. Even if these features depend on each other or upon the existence of the other features, all of these properties independently contribute to the probability that this fruit is an apple and that is why it is known as ‘Naive’.</p>
+
+<div class="imagediv">
+  <img src="../images/bayes.png" width="700px" height="300px" style="margin: 0 10px 10px 10px">
+</div>
+
+
+<h4>i. Implementing The Naive Bayes Classifier</h4>
+<div class="code">
+
+<?prettify linenums=1?>
+<pre class="prettyprint">
+library(e1071)
+
+classifier <- naiveBayes(x = trainingSet[-17],
+                         y = trainingSet$Death_1yr)
+
+
+y_pred <- predict(classifier, newdata = testSet[-17])
+
+
+cm_NB <- table(testSet[,17], y_pred)
+
+accuracy_NB <- (cm_NB[1,1]+cm_NB[2,2])/(cm_NB[1,1]+cm_NB[2,2]+cm_NB[1,2]+cm_NB[2,1])
+
+
+TP <- cm_NB[2,2]
+FP <- cm_NB[1,2]
+TN <- cm_NB[1,1]
+FN <- cm_NB[2,1]
+
+sensitivity_NB <- TP/(TP+FN)
+specificity_NB <- TN/(TN+FP)
+</pre>
+</div>
+
+
+<h4>ii. Implementing The Cross Validation In Naive Bayes Classifier</h4>
+<p>As we discussed in <a href="logisticCV.html"> Cross Validation</a> section, it helps you estimate the performance of your model.</p>
+
+
+<div class="code">
+
+<?prettify linenums=22?>
+<pre class="prettyprint">
+folds = createFolds(trainingSet$Death_1yr, k=10)
+
+cv = lapply(folds, function(x){
+  
+  training_fold = trainingSet[-x, ]
+  
+  test_fold = trainingSet[x, ]
+  
+  classifier <- naiveBayes(x = training_fold[-17],
+                           y = training_fold$Death_1yr)
+  
+  
+  y_pred <- predict(classifier, newdata = test_fold[-17])
+  
+  cm = table(test_fold[ ,17], y_pred)
+
+  accuracy = (cm[1,1]+cm[2,2])/(cm[1,1]+cm[2,2]+cm[1,2]+cm[2,1])
+  
+  return(accuracy)
+})
+
+
+avg_nb_cv_accuracy <- mean(as.numeric(cv))
+nb_accuracy_error <- sd(as.numeric(cv))/sqrt(10)
+min_nb <- avg_nb_cv_accuracy - nb_accuracy_error * qnorm(0.975)
+max_nb <- avg_nb_cv_accuracy + nb_accuracy_error * qnorm(0.975)
+CI_95_NB <- c(min_nb, max_nb)
+</pre>
+</div>
+
+
+<div class="buttonBar">
+  <a href="bagging.html"><button type="button" class="btn btn-outline-danger unique" style="width: 200px; font-family: cursive; font-size: 15px;">Back: Bagging - Bootstrap Aggregation</button></a>
+</div>
+
+
+
+
+
+
+</div>
+<!-- Bootstrap 4 script files -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

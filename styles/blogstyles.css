@@ -1,0 +1,125 @@
+body
+{
+	background-color:white;
+	font-family: 'Raleway', sans-serif;
+	
+}
+
+#container
+{
+	width: 100%;
+	margin:  auto;
+	padding: 30px;
+}
+
+#subject
+{
+	font-family: 'Zilla Slab', serif;
+	border-color: lightblue;
+	border-width: 0 0 0 3px;
+	border-style: groove;
+	padding: 10px; 
+
+}
+
+.mainlabel span
+{
+	
+	text-transform: uppercase;
+	font-family: 'Ubuntu', sans-serif;
+	font-weight: bolder;
+	border-style:ridge ;
+	border-color: black;
+	border-width: 0 0 5px 0;
+	font-size: 25px;
+
+}
+
+.mainlabel
+{
+	margin: 20px 0 20px 0;
+}
+
+
+.code
+{
+	font-size: 15px;
+	width: 70%;
+	margin: 10px auto;
+}
+
+.code pre
+{
+	padding: 20px;
+}
+
+p
+{
+	line-height: 1.6;
+	font-size: 20px;
+}
+
+a
+{
+	text-decoration: none;
+	color: red;
+}
+
+
+.dataTable
+{
+	font-size: 10px;
+	width: 80%;
+	margin: 0 auto;
+
+}
+
+h6
+{
+	font-style: italic;
+}
+
+.imagediv
+{
+	width: 50%;
+	margin: 0 auto;
+}
+
+.imagediv img
+{
+
+	border: 1px solid black;
+}
+
+.buttonBar
+{
+	width: 35%;
+	margin: 10px auto;
+}
+
+a button
+{
+	margin: 20px;
+	display: inline-block;
+	float: left;
+	overflow: hidden;
+	font-size: 10px;
+}
+
+.btn.btn-outline-success.unique,
+.btn.btn-outline-danger.unique
+{
+	margin: 10px 65px 20px 100px;
+}
+
+.ref
+{
+	text-decoration: none;
+	color: black;
+}
+
+.ref:hover
+{
+	color: red;
+	text-decoration: underline;
+}

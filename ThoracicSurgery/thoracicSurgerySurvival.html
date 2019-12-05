@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Project</title>
+	<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=css&amp;skin=default"></script>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Zilla+Slab&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../styles/blogstyles.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">Go To...</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="thoracicSurgerySurvival.html">Dataset<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="logisticRegression.html">Logistic Regression</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="logisticCV.html">Cross Validation</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="bagging.html">Bagging</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="naive-bayes.html">Naive Bayes Classifier</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div id="container">
+<h2 id="subject">Thoracic Surgery Survival Project</h2>
+<h6>Submitted by: <a href="https://github.com/AhmedKhaled8">Ahmed Khaled</a></h6>
+<h3 class="mainlabel"><span>Introduction</span></h3>
+<p>
+	Thoracic Surgery refers to operations on organs in the chest, including the heart, lungs and esophagus. Examples of thoracic surgery include coronary artery transplant and removal of parts of the lung affected by cancer.
+</p>
+<p>
+	After the surgery is done, there may be risk that the patient may die after specific period. This project aims to predict whether a patient dies within one year or survives. 
+</p>
+<p>
+	To achieve our aim, we will apply machine learining algorithms using R language. Here, we will use <strong>Logisitic Regression</strong> and <strong>Naive-Bayes Classifier</strong>.
+</p>
+<h3>Dataset</h3>
+<p>
+	The dataset we use in this project is from the <a href="http://archive.ics.uci.edu/ml/datasets/Thoracic+Surgery+Data">UC Irvine Machine Learning Repository</a>. The dataset consists of 470 records (instances) with 16 features with our output being "Death_1Yr" represented by 2 classes ("1": died, "0":survived).
+</p>
+
+
+<div class="dataTable" id="table">
+<table class="table table-striped" style="font-size: 15px">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Attribute</th>
+      <th scope="col">Description</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Diagnosis</td>
+      <td>specific combination of ICD-10 codes for primary and secondary as well multiple tumours if any</td>
+    
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>FVC (Forced vital capacity)</td>
+      <td>The total amount of air exhaled during the FEV test. Forced expiratory volume and forced vital capacity are lung function tests that are measured during spirometry.</td>
+      
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>FEV1</td>
+      <td>Volume that has been exhaled at the end of the first second of forced expiration</td>
+
+    </tr>
+    <tr>
+      <th scope="row">4</th>
+      <td>Performance</td>
+      <td>Performance status on Zubrod scale, Good (0) to Poor (2)</td>
+
+    </tr>
+    <tr>
+      <th scope="row">5</th>
+      <td>Pain</td>
+      <td>Pain before surgery (T = 1, F = 0)</td>
+
+    </tr>
+    <tr>
+      <th scope="row">6</th>
+      <td>Haemoptysis</td>
+      <td>coughing up of blood or blood-stained mucus from the bronchi, larynx, trachea, or lungs. (T = 1, F = 0)</td>
+
+    </tr>
+    <tr>
+      <th scope="row">7</th>
+      <td>Haemoptysis</td>
+      <td>coughing up of blood or blood-stained mucus from the bronchi, larynx, trachea, or lungs. (T = 1, F = 0)</td>
+
+    </tr>
+
+    <tr>
+      <th scope="row">8</th>
+      <td>Dyspnoea</td>
+      <td>Difficulty or labored breathing, before surgery (T = 1, F = 0)</td>
+
+    </tr>
+    <tr>
+      <th scope="row">9</th>
+      <td>Cough</td>
+      <td>Symptoms of coughing, before surgery (T = 1, F = 0)</td>
+
+    </tr>
+    <tr>
+      <th scope="row">10</th>
+      <td>Tumor_Size</td>
+      <td>size of the original tumor, 1 (smallest) to 4 (largest)</td>
+
+    </tr>
+     <tr>
+      <th scope="row">15</th>
+      <td>Weakness</td>
+      <td>did the patient suffer from weakness before surgery ? (T=1 , F=0)</td>
+
+    </tr>
+    <tr>
+      <th scope="row">11</th>
+      <td>Diabetes_Mellitus</td>
+      <td>group of metabolic disorders characterized by a high blood sugar level over a prolonged period. (Present = 1, Absent = 0)</td>
+
+    </tr>
+    <tr>
+      <th scope="row">12</th>
+      <td>MI_6mo</td>
+      <td>Myocardial infarction up to 6 months prior(T = 1, F = 0)</td>
+
+    </tr>
+    <tr>
+      <th scope="row">10</th>
+      <td>PAD</td>
+      <td>Peripheral arterial diseases (T = 1, F = 0)</td>
+
+    </tr>
+    <tr>
+      <th scope="row">13</th>
+      <td>Smoking</td>
+      <td>does the patient smoke ? (T = 1, F = 0)</td>
+
+    </tr>
+    <tr>
+      <th scope="row">14</th>
+      <td>Asthma</td>
+      <td>does the patient has asthma (a condition in which your airways narrow and swell and produce extra mucus.) ? (T = 1, F = 0)</td>
+
+    </tr>
+
+     <tr>
+      <th scope="row">16</th>
+      <td>Age</td>
+      <td>Age of patient when surgery was done</td>
+
+    </tr>
+     <tr>
+      <th scope="row">17</th>
+      <td>Death_1yr</td>
+      <td>Did the patient die one year after the surgery ? (T = 1, F = 0)</td>
+
+    </tr>
+
+  </tbody>
+</table>
+</div>
+<br>
+<br>
+<h5 class="mainlabel"><span>A. Data Preprcoessing</span></h5>
+<p>First, we imported the dataset to our R-project using read.csv</p>
+<div class="code">
+<?prettify linenums=1?>
+<pre class="prettyprint">
+dataSet <- read.csv("ThoraricSurgery.arff", header = F, comment.char = '@')
+cols_headings <- c('Diagnosis', 'FVC', 'FEV1', 'Performance',
+                   'Pain', 'Haemoptysis', 'Dyspnoea', 'Cough',
+                   'Weakness', 'Tumor_Size', 'Diabetes_Mellitus',
+                   'MI_6mo', 'PAD', 'Smoking', 'Asthma', 'Age', 'Death_1yr')
+names(dataSet) <- cols_headings
+</pre>
+</div>
+<p>
+	For our dataset, the features (Diagonsis, Perfomrance, Haemoptysis, Dyspneoa, Cough, Weakness, Tumor_Size, Diabetes_Mellitus, MI_6mo, PAD, Smoking, Asthma, Death_1yr) are discrete. So, to train our models wee, we need to convert the discrete values into factor levels.
+</p>
+<div class="code">
+<?prettify linenums=7?>
+<pre class="prettyprint">
+# Encoding Caterogrical Data
+
+dataSet$Diagnosis <- factor(dataSet$Diagnosis,
+                            levels = c('DGN1', 'DGN2', 'DGN3', 'DGN4', 'DGN5', 'DGN6', 'DGN7', 'DGN8'),
+                            labels = c(1, 2, 3, 4, 5, 6, 7, 8))
+
+dataSet$Performance <- factor(dataSet$Performance,
+                              levels = c('PRZ0', 'PRZ1', 'PRZ2'),
+                              labels = c(0, 1, 2))
+
+dataSet$Pain <- factor(dataSet$Pain,
+                       levels = c('FALSE', 'TRUE'),
+                       labels = c(0, 1)
+)
+
+dataSet$Haemoptysis <- factor(dataSet$Haemoptysis,
+                              levels = c('FALSE', 'TRUE'),
+                              labels = c(0, 1)
+)
+
+dataSet$Dyspnoea <- factor(dataSet$Dyspnoea,
+                           levels = c('FALSE', 'TRUE'),
+                           labels = c(0, 1)
+)
+dataSet$Cough <- factor(dataSet$Cough,
+                        levels = c('FALSE', 'TRUE'),
+                        labels = c(0, 1)
+)
+
+dataSet$Weakness <- factor(dataSet$Weakness,
+                           levels = c('FALSE', 'TRUE'),
+                           labels = c(0, 1)
+)
+dataSet$Tumor_Size <- factor(dataSet$Tumor_Size,
+                             levels = c('OC11', 'OC12', 'OC13', 'OC14'),
+                             labels = c(1, 2, 3, 4)
+)
+
+dataSet$Diabetes_Mellitus <- factor(dataSet$Diabetes_Mellitus,
+                                    levels = c('FALSE', 'TRUE'),
+                                    labels = c(0, 1)
+)
+dataSet$MI_6mo <- factor(dataSet$MI_6mo,
+                         levels = c('FALSE', 'TRUE'),
+                         labels = c(0, 1)
+)
+dataSet$PAD <- factor(dataSet$PAD,
+                      levels = c('FALSE', 'TRUE'),
+                      labels = c(0, 1)
+)
+dataSet$Smoking <- factor(dataSet$Smoking,
+                          levels = c('FALSE', 'TRUE'),
+                          labels = c(0, 1)
+)
+dataSet$Asthma <- factor(dataSet$Asthma,
+                         levels = c('FALSE', 'TRUE'),
+                         labels = c(0, 1)
+)
+dataSet$Death_1yr <- factor(dataSet$Death_1yr,
+                            levels = c('FALSE', 'TRUE'),
+                            labels = c(0, 1)
+)
+</pre>
+</div>
+
+<p>Now, we split our dataset to a training set and a test set. Here, we set the size of training set to be 75% of the whole set.</p>
+<div class="code">
+<?prettify linenums=68?>
+<pre class="prettyprint">
+# Splitting The DataSet into The Training Set and Test Set
+
+library(caTools)
+
+set.seed(123) # specify the random state variable to fix the randomly-selected instances.
+
+split <- sample.split(dataSet$Death_1yr, SplitRatio = 0.75)
+
+trainingSet <- subset(dataSet, split==TRUE)
+
+testSet <- subset(dataSet, split==FALSE)
+</pre>
+</div>
+
+
+<div class="buttonBar">
+  <a href="logisticRegression.html"><button type="button" class="btn btn-outline-success unique" style="width: 250px; font-family: cursive;">Next: Logistic Regression</button></a>
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+<!--
+<div class="code">
+<?prettify linenums=30?>
+<pre class="prettyprint">
+folds = createFolds(trainingSet$Death_1yr, k=10)
+
+cv = lapply(folds, function(x){
+  
+training_fold = trainingSet[-x, ]
+  
+test_fold = trainingSet[x, ]
+
+classifier <- naiveBayes(x = training_fold[-17],
+                           y = training_fold$Death_1yr)
+  
+  
+y_pred <- predict(classifier, newdata = test_fold[-17])
+  
+cm = table(test_fold[ ,17], y_pred)
+
+accuracy = (cm[1,1]+cm[2,2])/(cm[1,1]+cm[2,2]+cm[1,2]+cm[2,1])
+  
+return(accuracy)
+})
+
+</pre>
+</div>
+!-->
+
+
+<!-- Bootstrap 4 script files -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

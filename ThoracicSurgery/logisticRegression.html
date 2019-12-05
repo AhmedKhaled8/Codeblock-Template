@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Project</title>
+	<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=r&amp;skin=default"></script>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Zilla+Slab&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../styles/blogstyles.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">Go To...</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="thoracicSurgerySurvival.html">Dataset<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="logisticRegression.html">Logistic Regression</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="logisticCV.html">Cross Validation</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="bagging.html">Bagging</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="naive-bayes.html">Naive Bayes Classifier</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+
+<div id="container">
+<h2 id="subject">Thoracic Surgery Survival Project</h2>
+<h6>Submitted by: <a href="https://github.com/AhmedKhaled8">Ahmed Khaled</a></h6>
+
+
+<h5  class="mainlabel"><span>B. Implementing Logistic Regression Model</span></h5>
+<h6>i. Generating The Logistic Class</h6>
+<p>
+In statistics, the logistic model (or logit model) is used to model the probability of a certain class or event existing such as pass/fail, win/lose, alive/dead or healthy/sick.  Each object being detected in the image would be assigned a probability between 0 and 1 and the sum adding to one. <a href="https://en.wikipedia.org/wiki/Logistic_regression">[more on wikipedia]</a>. Here, we have the class 1 represents death and 0 represents survial. 
+<br>
+The logistic model is retrived from glm "generalized linear model" class. We specify formula to be our output "Death_1yr" as function in the other features. The family of the model is binary as we have two classes for the output(0,1). The data we are training the model with is the training set implemented in the section above. 
+</p>
+
+<div class="code">
+<?prettify linenums=1?>
+<pre class="prettyprint">
+classifier = glm(formula = Death_1yr ~ ., family = binomial, data = trainingSet)
+</pre>
+</div>
+
+<h6>ii. Predicting The Output</h6>
+<p>
+  Now, we will use the information of the records in the test set to predict the output of each wheter the patient will die(1) or not(0). As we discussed above, the ouptut of the logistic model repersents the probability of being class (1). So, if the probability of being class 1 is higher than 0.5, we predict it is class 1. And, if the probability of being class 1 is less than 0.5, then, we predict it is class 0. 
+</p>
+<div class="code">
+<?prettify linenums=2?>
+<pre class="prettyprint">
+# Prediciting stage
+
+prob_predict = predict(classifier, type = 'response', testSet[-17])
+
+y_pred = ifelse(prob_predict > 0.5, 1, 0)
+</pre>
+</div>
+
+
+<h6>iii. Computing The Confusion Matrix</h6>
+<p>
+  As our output are 1, 0 classes. We can generate a confusion matrix. A confusion matrix is  a table that is often used to describe the performance of a classification model (or "classifier") on a set of test data for which the true values are known.
+  <br>
+  From the confusion matrix, we can calculate some parameters which are important in classification problems; <strong><em>sesnsitivity</em>, <em>specifity</em></strong> and of course <strong><em>accuracy</em></strong>.
+</p>
+<div class="imagediv">
+  <img src="../images/cm.png" width="700px" height="250px">
+</div>
+<div class="code">
+<?prettify linenums=7?>
+
+<pre class="prettyprint">
+# Confusion Matrix
+
+cm_LR = table(testSet[,17], y_pred)
+
+accuracy_LR = (cm_LR[1,1]+cm_LR[2,2])/(cm_LR[1,1]+cm_LR[2,2]+cm_LR[1,2]+cm_LR[2,1])
+
+TP <- cm_LR[2,2]
+FP <- cm_LR[1,2]
+TN <- cm_LR[1,1]
+FN <- cm_LR[2,1]
+
+sensitivity_LR <- TP/(TP+FN)
+specificity_LR <- TN/(TN+FP)
+</pre>
+</div>
+
+
+
+<div class="code">
+
+<p>The output will be:</p>
+<pre class="prettyprint">
+  accuracy_LR: 0.8559
+  sensitivity_LR: 0.0555
+  specifity_LR: 0.998217
+</pre>
+</div>
+
+<div class="buttonBar">
+  <a href="thoracicSurgerySurvival.html"><button type="button" class="btn btn-outline-danger" style="width: 200px; font-family: cursive; font-size: 15px;">Back: Introduction and Dataset</button></a>
+  <a href="logisticCV.html"><button type="button" class="btn btn-outline-success" style="width: 200px; font-family: cursive; font-size: 15px;">Next: Cross Validation in Logistic Regression</button></a>
+</div>
+
+
+
+
+
+
+
+
+</div>
+<!--
+<div class="code">
+<?prettify linenums=30?>
+<pre class="prettyprint">
+folds = createFolds(trainingSet$Death_1yr, k=10)
+
+cv = lapply(folds, function(x){
+  
+training_fold = trainingSet[-x, ]
+  
+test_fold = trainingSet[x, ]
+
+classifier <- naiveBayes(x = training_fold[-17],
+                           y = training_fold$Death_1yr)
+  
+  
+y_pred <- predict(classifier, newdata = test_fold[-17])
+  
+cm = table(test_fold[ ,17], y_pred)
+
+accuracy = (cm[1,1]+cm[2,2])/(cm[1,1]+cm[2,2]+cm[1,2]+cm[2,1])
+  
+return(accuracy)
+})
+
+</pre>
+</div>
+!-->
+
+
+<!-- Bootstrap 4 script files -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</body>
+</html>
